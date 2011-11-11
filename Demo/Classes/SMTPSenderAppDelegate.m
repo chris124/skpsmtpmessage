@@ -44,7 +44,7 @@
                                                @"smtp.example.com", @"relayHost",
                                                @"me@example.com", @"login",
                                                @"SekritSquirrel", @"pass",
-                                               [NSNumber numberWithBool:YES], @"requiredAuth",
+                                               [NSNumber numberWithBool:YES], @"requiresAuth",
                                                [NSNumber numberWithBool:YES], @"wantsSecure", nil];
     
     [userDefaults registerDefaults:defaultsDictionary];
@@ -123,6 +123,17 @@
     NSDictionary *vcfPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/directory;\r\n\tx-unix-mode=0644;\r\n\tname=\"test.vcf\"",kSKPSMTPPartContentTypeKey,
                              @"attachment;\r\n\tfilename=\"test.vcf\"",kSKPSMTPPartContentDispositionKey,[vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,@"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     
+    //attach an image
+    /*
+    NSString *image_path = [[NSBundle mainBundle] pathForResource:@"photo" ofType:@"png"];
+	NSData *image_data = [NSData dataWithContentsOfFile:image_path];        
+	NSDictionary *vcfPart = [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"inline;\r\n\tfilename=\"Icon.png\"",kSKPSMTPPartContentDispositionKey,
+                                @"base64",kSKPSMTPPartContentTransferEncodingKey,
+                                @"image/png;\r\n\tname=Icon.png;\r\n\tx-unix-mode=0666",kSKPSMTPPartContentTypeKey,
+                                [image_data encodeWrappedBase64ForData],kSKPSMTPPartMessageKey,
+                                nil];
+    */
     testMsg.parts = [NSArray arrayWithObjects:plainPart,vcfPart,nil];
     
     [testMsg send];
